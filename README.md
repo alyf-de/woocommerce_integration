@@ -1,7 +1,3 @@
-## Woocommerce-ERPNext Integration
+## Woocommerce ERPNext Integration
 
 A WooCommerce Integration for ERPNext
-
-#### License
-
-MIT

@@ -1,1 +1,1 @@
-Woocommerce-ERPNext Integration
+WooCommerce

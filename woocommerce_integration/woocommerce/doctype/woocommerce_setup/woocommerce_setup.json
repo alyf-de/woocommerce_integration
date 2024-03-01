@@ -1,0 +1,178 @@
+{
+ "actions": [],
+ "creation": "2024-02-29 14:47:55.912826",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "enable_sync",
+  "access_section",
+  "consumer_key",
+  "column_break_5tmko",
+  "consumer_secret",
+  "webhooks_section",
+  "webhook_secret",
+  "webhook_endpoints",
+  "general_section",
+  "default_user",
+  "default_uom",
+  "column_break_qmjyq",
+  "default_company",
+  "sales_order_series",
+  "delivery_after",
+  "default_warehouse",
+  "taxes_section",
+  "tax_account",
+  "column_break_i90um",
+  "shipping_tax_account"
+ ],
+ "fields": [
+  {
+   "fieldname": "consumer_key",
+   "fieldtype": "Data",
+   "label": "Consumer Key",
+   "reqd": 1
+  },
+  {
+   "fieldname": "consumer_secret",
+   "fieldtype": "Password",
+   "label": "Consumer Secret",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_5tmko",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "webhook_secret",
+   "fieldtype": "Data",
+   "label": "Webhook Secret",
+   "read_only": 1
+  },
+  {
+   "depends_on": "enable_sync",
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "description": "The user that will be used to create Customers, Items and Sales Orders. This user should have the relevant permissions.",
+   "fieldname": "default_user",
+   "fieldtype": "Link",
+   "label": "Default User",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_qmjyq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "label": "Default Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sales_order_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Sales Order Series",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_sync",
+   "fieldtype": "Check",
+   "label": "Enable Sync"
+  },
+  {
+   "depends_on": "enable_sync",
+   "fieldname": "access_section",
+   "fieldtype": "Section Break",
+   "label": "Access"
+  },
+  {
+   "default": "Nos",
+   "description": "Defaults to \"Nos\"",
+   "fieldname": "default_uom",
+   "fieldtype": "Link",
+   "label": "Default UOM",
+   "options": "UOM"
+  },
+  {
+   "depends_on": "enable_sync",
+   "fieldname": "webhooks_section",
+   "fieldtype": "Section Break",
+   "label": "Webhooks"
+  },
+  {
+   "fieldname": "webhook_endpoints",
+   "fieldtype": "Small Text",
+   "label": "Webhook Endpoints",
+   "read_only": 1
+  },
+  {
+   "description": "Used to set the Delivery Date x days after the Order Date in the Sales Order. Defaults to 7",
+   "fieldname": "delivery_after",
+   "fieldtype": "Int",
+   "label": "Delivery After (days)"
+  },
+  {
+   "fieldname": "default_warehouse",
+   "fieldtype": "Link",
+   "label": "Default Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "taxes_section",
+   "fieldtype": "Section Break",
+   "label": "Taxes"
+  },
+  {
+   "fieldname": "tax_account",
+   "fieldtype": "Link",
+   "label": "Tax Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_i90um",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shipping_tax_account",
+   "fieldtype": "Link",
+   "label": "Shipping Tax Account",
+   "options": "Account",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-03-01 15:20:17.427481",
+ "modified_by": "Administrator",
+ "module": "WooCommerce",
+ "name": "WooCommerce Setup",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

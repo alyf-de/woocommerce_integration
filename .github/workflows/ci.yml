@@ -4,11 +4,11 @@ name: CI
 on:
   push:
     branches:
-      - develop
+      - version-14
   pull_request:
 
 concurrency:
-  group: develop-woocommerce_integration-${{ github.event.number }}
+  group: version-14-woocommerce_integration-${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
