@@ -5,6 +5,57 @@ app_description = "A WooCommerce Integration for ERPNext"
 app_email = "hallo@alyf.de"
 app_license = "MIT"
 
+after_install = "woocommerce_integration.install.after_install"
+after_uninstall = "woocommerce_integration.install.after_uninstall"
+
+woocomm_custom_fields = {
+    "Customer": [
+        {
+            "fieldname": "woocomm_customer_id",
+            "label": "WooCommerce Customer ID",
+            "fieldtype": "Data",
+            "insert_after": "naming_series",
+            "read_only": 1,
+        }
+    ],
+    "Address": [
+        {
+            "fieldname": "woocomm_customer_id",
+            "label": "WooCommerce Customer ID",
+            "fieldtype": "Data",
+            "insert_after": "disabled",
+            "read_only": 1,
+        }
+    ],
+    "Contact": [
+        {
+            "fieldname": "woocomm_customer_id",
+            "label": "WooCommerce Customer ID",
+            "fieldtype": "Data",
+            "insert_after": "company_name",
+            "read_only": 1,
+        }
+    ],
+    "Sales Order": [
+        {
+            "fieldname": "woocomm_order_id",
+            "label": "WooCommerce Order ID",
+            "fieldtype": "Data",
+            "insert_after": "naming_series",
+            "read_only": 1,
+        }
+    ],
+    "Item": [
+        {
+            "fieldname": "woocomm_product_id",
+            "label": "WooCommerce Product ID",
+            "fieldtype": "Data",
+            "insert_after": "naming_series",
+            "read_only": 1,
+        }
+    ],
+}
+
 # Includes in <head>
 # ------------------
 
@@ -32,17 +83,6 @@ app_license = "MIT"
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
-# Home Pages
-# ----------
-
-# application home page (will override Website Settings)
-# home_page = "login"
-
-# website user home page (by Role)
-# role_home_page = {
-# 	"Role": "home_page"
-# }
-
 # Generators
 # ----------
 
@@ -62,13 +102,11 @@ app_license = "MIT"
 # ------------
 
 # before_install = "woocommerce_integration.install.before_install"
-# after_install = "woocommerce_integration.install.after_install"
 
 # Uninstallation
 # ------------
 
 # before_uninstall = "woocommerce_integration.uninstall.before_uninstall"
-# after_uninstall = "woocommerce_integration.uninstall.after_uninstall"
 
 # Integration Setup
 # ------------------
@@ -213,3 +251,51 @@ app_license = "MIT"
 # auth_hooks = [
 # 	"woocommerce_integration.auth.validate"
 # ]
+
+woocomm_custom_fields = {
+    "Customer": [
+        {
+            "fieldname": "woocomm_customer_id",
+            "label": "WooCommerce Customer ID",
+            "fieldtype": "Data",
+            "insert_after": "naming_series",
+            "read_only": 1,
+        }
+    ],
+    "Address": [
+        {
+            "fieldname": "woocomm_customer_id",
+            "label": "WooCommerce Customer ID",
+            "fieldtype": "Data",
+            "insert_after": "disabled",
+            "read_only": 1,
+        }
+    ],
+    "Contact": [
+        {
+            "fieldname": "woocomm_customer_id",
+            "label": "WooCommerce Customer ID",
+            "fieldtype": "Data",
+            "insert_after": "company_name",
+            "read_only": 1,
+        }
+    ],
+    "Sales Order": [
+        {
+            "fieldname": "woocomm_order_id",
+            "label": "WooCommerce Order ID",
+            "fieldtype": "Data",
+            "insert_after": "naming_series",
+            "read_only": 1,
+        }
+    ],
+    "Item": [
+        {
+            "fieldname": "woocomm_product_id",
+            "label": "WooCommerce Product ID",
+            "fieldtype": "Data",
+            "insert_after": "naming_series",
+            "read_only": 1,
+        }
+    ],
+}

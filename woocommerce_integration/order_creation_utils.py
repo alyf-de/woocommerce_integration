@@ -19,9 +19,9 @@ def create_update_customer(order_data: dict):
 	)
 
 	# Customer could have been created manually which may differ in naming
-	# always check woocommerce_customer_id
+	# always check woocomm_customer_id
 	if erp_customer := frappe.db.exists(
-		"Customer", {"woocommerce_customer_id": customer_id}
+		"Customer", {"woocomm_customer_id": customer_id}
 	):
 		customer = frappe.get_doc("Customer", erp_customer)
 	else:
@@ -29,7 +29,7 @@ def create_update_customer(order_data: dict):
 		customer.name = customer_id
 
 	customer.customer_name = customer_name
-	customer.woocommerce_customer_id = customer_id
+	customer.woocomm_customer_id = customer_id
 	customer.flags.ignore_mandatory = True
 	customer.save()
 
@@ -56,7 +56,7 @@ def create_address(raw_data: dict, customer: dict, address_type: str):
 		{
 			"pincode": raw_data.get("postcode"),
 			"address_line1": raw_data.get("address_1", "Not Provided"),
-			"woocommerce_customer_id": customer.woocommerce_id,
+			"woocomm_customer_id": customer.woocommerce_id,
 			"address_type": address_type,
 		}
 	):
@@ -66,7 +66,7 @@ def create_address(raw_data: dict, customer: dict, address_type: str):
 	address.address_line1 = raw_data.get("address_1", "Not Provided")
 	address.address_line2 = raw_data.get("address_2")
 	address.city = raw_data.get("city", "Not Provided")
-	address.woocommerce_customer_id = customer.woocommerce_id
+	address.woocomm_customer_id = customer.woocommerce_id
 	address.address_type = address_type
 	address.state = raw_data.get("state")
 	address.pincode = raw_data.get("postcode")
@@ -96,7 +96,7 @@ def create_contact(data: dict, customer: str):
 		"Contact",
 		{
 			"email_id": email,
-			"woocommerce_customer_id": customer.woocommerce_id,
+			"woocomm_customer_id": customer.woocommerce_id,
 		}
 	):
 		return
@@ -105,7 +105,7 @@ def create_contact(data: dict, customer: str):
 	contact.first_name = data.get("first_name")
 	contact.last_name = data.get("last_name")
 	contact.email_id = email
-	contact.woocommerce_customer_id = customer.woocommerce_id
+	contact.woocomm_customer_id = customer.woocommerce_id
 	contact.is_primary_contact = 1
 	contact.is_billing_contact = 1
 
@@ -128,7 +128,7 @@ def create_order(order: dict, woocommerce_setup: dict, customer: str):
 	sales_order = frappe.new_doc("Sales Order")
 	sales_order.customer = customer
 	sales_order.company = woocommerce_setup.company
-	sales_order.po_no = sales_order.woocommerce_order_id = order.get("id")
+	sales_order.po_no = sales_order.woocomm_order_id = order.get("id")
 	sales_order.naming_series = woocommerce_setup.sales_order_series
 
 	created_date = order.get("date_created").split("T")
@@ -194,7 +194,7 @@ def create_item(item_data: dict, woo_com_id: str, setup: dict):
 	item.stock_uom = get_uom(item_data.get("sku"), setup.default_uom)
 	item.item_group = "WooCommerce Products"
 	item.image = (item_data.get("image") or {}).get("src")
-	item.woocommerce_product_id = woo_com_id
+	item.woocomm_product_id = woo_com_id
 	item.flags.ignore_mandatory = True
 	item.save()
 
