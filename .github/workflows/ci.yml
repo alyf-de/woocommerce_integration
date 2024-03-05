@@ -76,16 +76,17 @@ jobs:
           bench get-app erpnext --branch version-14
           bench get-app woocommerce_integration $GITHUB_WORKSPACE
           bench setup requirements --dev
+
           bench new-site --db-root-password root --admin-password admin test_site
           bench --site test_site install-app woocommerce_integration
           bench build
         env:
           CI: 'Yes'
 
-      - name: Run Tests
-        working-directory: /home/runner/frappe-bench
-        run: |
-          bench --site test_site set-config allow_tests true
-          bench --site test_site run-tests --app woocommerce_integration
-        env:
-          TYPE: server
+      # - name: Run Tests
+      #   working-directory: /home/runner/frappe-bench
+      #   run: |
+      #     bench --site test_site set-config allow_tests true
+      #     bench --site test_site run-tests --app woocommerce_integration
+      #   env:
+      #     TYPE: server

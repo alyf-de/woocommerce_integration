@@ -107,12 +107,12 @@
    "label": "Access"
   },
   {
-   "default": "Nos",
    "description": "Defaults to \"Nos\"",
    "fieldname": "default_uom",
    "fieldtype": "Link",
    "label": "Default UOM",
-   "options": "UOM"
+   "options": "UOM",
+   "reqd": 1
   },
   {
    "depends_on": "enable_sync",
@@ -242,7 +242,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-05 13:04:27.090790",
+ "modified": "2024-03-06 12:11:27.104366",
  "modified_by": "Administrator",
  "module": "WooCommerce",
  "name": "WooCommerce Setup",

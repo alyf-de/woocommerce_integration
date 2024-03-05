@@ -48,7 +48,7 @@ def get_uom(sku: str | None, default_uom: str):
 	if sku and not frappe.db.exists("UOM", sku):
 		frappe.get_doc({"doctype": "UOM", "uom_name": sku}).save()
 
-	return sku or default_uom
+	return sku or (default_uom or "Nos")
 
 
 def create_address(raw_data: dict, customer: dict, address_type: str):

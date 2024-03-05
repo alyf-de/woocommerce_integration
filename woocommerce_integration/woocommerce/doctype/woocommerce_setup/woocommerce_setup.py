@@ -21,8 +21,6 @@ class WooCommerceSetup(Document):
 		self.set_onload("sales_order_series", series)
 
 	def before_validate(self):
-		# Use "Nos" only if the default UOM is not set
-		self.default_uom = self.default_uom if self.default_uom else "Nos"
 		self.set_webhook_urls()
 
 	def validate(self):

@@ -46,12 +46,17 @@ def make_custom_fields():
 
 def make_woocommerce_records():
 	"""Create records for WooCommerce setup."""
-	if not frappe.db.exists("Item Group", "WooCommerce Products"):
+	groups = ["All Item Groups", "WooCommerce Products"]
+	for group in groups:
+		if frappe.db.exists("Item Group", group):
+			continue
+
 		frappe.get_doc(
 			{
 				"doctype": "Item Group",
-				"item_group_name": "WooCommerce Products",
-				"parent_item_group": "All Item Groups",
+				"item_group_name": group,
+				"parent_item_group": (
+					None if group == "All Item Groups" else "All Item Groups"
+				),
 			}
 		).insert(ignore_permissions=True)
-

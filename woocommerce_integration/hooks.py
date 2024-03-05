@@ -4,6 +4,7 @@ app_publisher = "ALYF GmbH"
 app_description = "A WooCommerce Integration for ERPNext"
 app_email = "hallo@alyf.de"
 app_license = "MIT"
+required_apps = ["frappe/erpnext"]
 
 after_install = "woocommerce_integration.install.after_install"
 after_uninstall = "woocommerce_integration.install.after_uninstall"
@@ -249,51 +250,3 @@ doc_events = {
 # auth_hooks = [
 # 	"woocommerce_integration.auth.validate"
 # ]
-
-woocomm_custom_fields = {
-	"Customer": [
-		{
-			"fieldname": "woocomm_customer_id",
-			"label": "WooCommerce Customer ID",
-			"fieldtype": "Data",
-			"insert_after": "naming_series",
-			"read_only": 1,
-		}
-	],
-	"Address": [
-		{
-			"fieldname": "woocomm_customer_id",
-			"label": "WooCommerce Customer ID",
-			"fieldtype": "Data",
-			"insert_after": "disabled",
-			"read_only": 1,
-		}
-	],
-	"Contact": [
-		{
-			"fieldname": "woocomm_customer_id",
-			"label": "WooCommerce Customer ID",
-			"fieldtype": "Data",
-			"insert_after": "company_name",
-			"read_only": 1,
-		}
-	],
-	"Sales Order": [
-		{
-			"fieldname": "woocomm_order_id",
-			"label": "WooCommerce Order ID",
-			"fieldtype": "Data",
-			"insert_after": "naming_series",
-			"read_only": 1,
-		}
-	],
-	"Item": [
-		{
-			"fieldname": "woocomm_product_id",
-			"label": "WooCommerce Product ID",
-			"fieldtype": "Data",
-			"insert_after": "naming_series",
-			"read_only": 1,
-		}
-	],
-}
