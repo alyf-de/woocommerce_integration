@@ -8,7 +8,10 @@ requires-python = ">=3.10,<3.13"
 readme = "README.md"
 dynamic = ["version"]
 dependencies = [
-    "erpnext~=14.0.0"
+    "erpnext"
+
+    # External dependencies
+    "woocommerce~=3.0.0"
 ]
 
 [build-system]

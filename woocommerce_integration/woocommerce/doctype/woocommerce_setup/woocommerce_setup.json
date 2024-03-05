@@ -7,7 +7,10 @@
  "engine": "InnoDB",
  "field_order": [
   "enable_sync",
+  "column_break_xlgy3",
+  "verify_ssl",
   "access_section",
+  "url",
   "consumer_key",
   "column_break_5tmko",
   "consumer_secret",
@@ -25,7 +28,16 @@
   "taxes_section",
   "tax_account",
   "column_break_i90um",
-  "shipping_tax_account"
+  "shipping_tax_account",
+  "stock_sync_tab",
+  "enable_stock_sync",
+  "section_break_drdxe",
+  "stock_update_method",
+  "last_stock_sync",
+  "column_break_ah4th",
+  "warehouse",
+  "interval_in_minutes",
+  "scheduled_job"
  ],
  "fields": [
   {
@@ -149,12 +161,88 @@
    "label": "Shipping Tax Account",
    "options": "Account",
    "reqd": 1
+  },
+  {
+   "description": "Eg.: https://abc.com",
+   "fieldname": "url",
+   "fieldtype": "Data",
+   "label": "WooCommerce Webshop URL",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xlgy3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_stock_sync",
+   "fieldtype": "Check",
+   "label": "Enable Stock Sync"
+  },
+  {
+   "fieldname": "stock_sync_tab",
+   "fieldtype": "Tab Break",
+   "label": "Stock Sync"
+  },
+  {
+   "fieldname": "column_break_ah4th",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.stock_update_method == \"In Certain Time Intervals\"",
+   "fieldname": "interval_in_minutes",
+   "fieldtype": "Int",
+   "label": "Interval in Minutes",
+   "mandatory_depends_on": "eval:doc.stock_update_method == \"In Certain Time Intervals\""
+  },
+  {
+   "depends_on": "enable_stock_sync",
+   "fieldname": "section_break_drdxe",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "Update Stock from ERPNext to WooCommerce:\n<br>\n1. <b>On Stock Update</b>: Everytime a stock transaction is submitted\n<br>\n2. <b>In Certain Time Intervals</b>: Every x minutes",
+   "fieldname": "stock_update_method",
+   "fieldtype": "Select",
+   "label": "Method",
+   "options": "On Stock Update\nIn Certain Time Intervals",
+   "reqd": 1
+  },
+  {
+   "depends_on": "enable_stock_sync",
+   "description": "Stock is synced from this warehouse to WooCommerce",
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "mandatory_depends_on": "enable_stock_sync",
+   "options": "Warehouse"
+  },
+  {
+   "default": "0",
+   "fieldname": "verify_ssl",
+   "fieldtype": "Check",
+   "label": "Verify SSL"
+  },
+  {
+   "depends_on": "eval:doc.stock_update_method == \"In Certain Time Intervals\"",
+   "fieldname": "scheduled_job",
+   "fieldtype": "Link",
+   "label": "Scheduled Job",
+   "options": "Scheduled Job Type",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.stock_update_method == \"In Certain Time Intervals\"",
+   "fieldname": "last_stock_sync",
+   "fieldtype": "Datetime",
+   "label": "Last Stock Sync",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-01 15:20:17.427481",
+ "modified": "2024-03-05 13:04:27.090790",
  "modified_by": "Administrator",
  "module": "WooCommerce",
  "name": "WooCommerce Setup",

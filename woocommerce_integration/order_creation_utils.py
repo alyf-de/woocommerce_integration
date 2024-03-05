@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import frappe
 
 from woocommerce_integration.general_utils import get_woocommerce_setup
@@ -131,10 +133,10 @@ def create_order(order: dict, woocommerce_setup: dict, customer: str):
 	sales_order.po_no = sales_order.woocomm_order_id = order.get("id")
 	sales_order.naming_series = woocommerce_setup.sales_order_series
 
-	created_date = order.get("date_created").split("T")
-	sales_order.transaction_date = created_date[0]
+	created_date = datetime.fromisoformat(order.get("date_created")).date()
+	sales_order.transaction_date = created_date
 	sales_order.delivery_date = frappe.utils.add_days(
-		created_date[0], woocommerce_setup.delivery_after or 7
+		created_date, woocommerce_setup.delivery_after or 7
 	)
 
 	add_items_to_sales_order(order, sales_order, woocommerce_setup)

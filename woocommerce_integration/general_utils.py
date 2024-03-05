@@ -48,11 +48,29 @@ def process_request_data() -> Tuple[bool, Optional[dict]]:
 	return False, order
 
 
-def log_woocommerce_error(order: dict):
+def build_filter_string(filters: dict) -> str:
+	"""
+	Build a filter string from a dict for the WooCommerce API.
+	"""
+	if not filters:
+		return ""
+
+	return "&".join([
+		f"{key}={value}" for key, value in filters.items()
+	])
+
+
+def log_woocommerce_error(response: dict):
+	log_response = (
+		frappe.as_json(response)
+		if isinstance(response, (dict, list,))
+		else response
+	) if response else "No Response Data"
+
 	error_message = (
 		frappe.get_traceback()
 		+ "\n\n Request Data: \n"
-		+ frappe.as_json(order)
+		+ log_response
 	)
 	frappe.log_error(
 		title=_("WooCommerce Error"), message=error_message,
