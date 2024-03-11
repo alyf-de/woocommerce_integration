@@ -11,12 +11,12 @@ class WooCommerceConnector:
         self.settings = setup
         self.url = self.settings.url
         self.consumer_key = self.settings.consumer_key
-        self.consumer_secret = self.settings.consumer_secret
+        self.consumer_secret = self.settings.get_password("consumer_secret")
         self.woocommerce = WCAPI(
             url=self.url,
             consumer_key=self.consumer_key,
             consumer_secret=self.consumer_secret,
-            wc_api=True,
+            wp_api=True,
             verify_ssl=self.settings.verify_ssl,
             version="wc/v3",
             timeout=1000,
