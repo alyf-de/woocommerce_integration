@@ -13,8 +13,8 @@ def create_sales_order(order_data: dict, setup: dict):
         setup = get_woocommerce_setup()
 
     try:
-        customer = create_update_customer(order_data)
-        create_order(order_data, setup, customer.name)
+        customer, billing_address, shipping_address = create_update_customer(order_data)
+        create_order(order_data, setup, customer.name, billing_address, shipping_address)
     except Exception:
         frappe.log_error(
             message=frappe.get_traceback(),
@@ -45,11 +45,12 @@ def create_update_customer(order_data: dict):
     customer.save()
 
     # Create address/contact if does not exist
-    create_address(billing_data, customer, "Billing")
-    create_address(order_data.get("shipping"), customer, "Shipping")
+    billing_address = create_address(billing_data, customer, "Billing")
+    shipping_address = create_address(order_data.get("shipping"), customer, "Shipping")
+
     create_contact(billing_data, customer)
 
-    return customer
+    return customer, billing_address, shipping_address
 
 
 def get_uom(sku: str | None, default_uom: str):
@@ -62,7 +63,7 @@ def get_uom(sku: str | None, default_uom: str):
 
 def create_address(raw_data: dict, customer: dict, address_type: str):
     """Create an address for the customer if it does not exist."""
-    if frappe.db.exists(
+    if address := frappe.db.exists(
         "Address",
         {
             "pincode": raw_data.get("postcode"),
@@ -71,7 +72,7 @@ def create_address(raw_data: dict, customer: dict, address_type: str):
             "address_type": address_type,
         },
     ):
-        return
+        return address
 
     address = frappe.new_doc("Address")
     address.address_title = customer.get("customer_name")
@@ -93,6 +94,7 @@ def create_address(raw_data: dict, customer: dict, address_type: str):
     address.append("links", {"link_doctype": "Customer", "link_name": customer.name})
     address.flags.ignore_mandatory = True
     address.save()
+    return address.name
 
 
 def create_contact(data: dict, customer: str):
@@ -129,7 +131,7 @@ def create_contact(data: dict, customer: str):
     contact.save()
 
 
-def create_order(order: dict, woocommerce_setup: dict, customer: str):
+def create_order(order: dict, woocommerce_setup: dict, customer: str, billing_address=None, shipping_address=None):
     """Create a sales order based on the order data."""
     sales_order = frappe.new_doc("Sales Order")
     sales_order.customer = customer
@@ -143,7 +145,14 @@ def create_order(order: dict, woocommerce_setup: dict, customer: str):
         created_date, woocommerce_setup.delivery_after or 7
     )
 
+    sales_order.customer_address = billing_address
+    sales_order.shipping_address_name = shipping_address
+
     add_items_to_sales_order(order, sales_order, woocommerce_setup)
+
+    sales_order.flags.ignore_permissions = True
+    sales_order.run_method("set_missing_values")
+    sales_order.run_method("calculate_taxes_and_totals")
 
     sales_order.flags.ignore_mandatory = True
     sales_order.insert()
@@ -167,24 +176,7 @@ def add_items_to_sales_order(order: dict, sales_order: dict, setup: dict):
                 "warehouse": setup.default_warehouse,
             },
         )
-
-        if ordered_items_tax := flt(line_item.get("total_tax")):
-            add_tax_details(
-                sales_order, ordered_items_tax, "Item Tax", setup.tax_account
-            )
-
-    add_tax_details(
-        sales_order,
-        flt(order.get("shipping_tax")),
-        "Shipping Tax",
-        setup.shipping_tax_account,
-    )
-    add_tax_details(
-        sales_order,
-        flt(order.get("shipping_total")),
-        "Shipping Total",
-        setup.shipping_tax_account,
-    )
+    
 
 
 def get_item(item_data: dict, setup: dict) -> dict:
@@ -211,18 +203,3 @@ def create_item(item_data: dict, woo_com_id: str, setup: dict):
     item.save()
 
     return item
-
-
-def add_tax_details(sales_order, price, desc, tax_account_head):
-    if not price:
-        return
-
-    sales_order.append(
-        "taxes",
-        {
-            "charge_type": "Actual",
-            "account_head": tax_account_head,
-            "tax_amount": price,
-            "description": desc,
-        },
-    )
